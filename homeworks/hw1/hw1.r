@@ -38,7 +38,7 @@ simSlopeIntercept <- function(
     a_hat_bias <- rep(NA, nSim) # y values for bias plots
 
     for (i in 1:nSim) {
-        eps <- rnorm(n, sd = sqrt(sigma)) # error term
+        eps <- rnorm(n, sd = sigma) # error term
         y <- a_true + (b_true * x) + eps # y values with error term
         y_scatterplot_vals[((i * n) - n + 1):(i * n)] <-
             y # add y values to scatterplot
@@ -58,32 +58,32 @@ simSlopeIntercept <- function(
     sim_mean_b <- mean(b_hat) # simulated mean of b_hat
     sim_mean_a <- mean(a_hat) # simulated mean of a_hat
 
-    # Plot the scatterplot
-    pdf("./homeworks/hw1/plots/scatterplot.pdf", width = 8, height = 6)
-    plot(x_scatterplot_vals, y_scatterplot_vals,
-        main = "Scatter plot of x and y", xlab = "x", ylab = "y",
-        pch = 19, col = "#0000ff3c"
-    )
-    abline(sim_mean_a, sim_mean_b, col = "red", lwd = 2)
-    dev.off()
+    # # Plot the scatterplot
+    # pdf("./homeworks/hw1/plots/scatterplot.pdf", width = 8, height = 6)
+    # plot(x_scatterplot_vals, y_scatterplot_vals,
+    #     main = "Scatter plot of x and y", xlab = "x", ylab = "y",
+    #     pch = 19, col = "#0000ff3c"
+    # )
+    # abline(sim_mean_a, sim_mean_b, col = "red", lwd = 2)
+    # dev.off()
 
-    # Plot a scatterplot of the bias of the slope and intercept estimates.
-    # Slope estimate is blue, intercept estimate is red.
-    pdf("./homeworks/hw1/plots/bias_slope.pdf", width = 8, height = 6)
-    plot(x_bias_vals, b_hat_bias,
-        main = "Bias of slope estimator",
-        xlab = "Simulation number", ylab = "Bias", pch = 19, col = "blue"
-    )
-    abline(h = 0, col = "black", lwd = 2)
-    dev.off()
+    # # Plot a scatterplot of the bias of the slope and intercept estimates.
+    # # Slope estimate is blue, intercept estimate is red.
+    # pdf("./homeworks/hw1/plots/bias_slope.pdf", width = 8, height = 6)
+    # plot(x_bias_vals, b_hat_bias,
+    #     main = "Bias of slope estimator",
+    #     xlab = "Simulation number", ylab = "Bias", pch = 19, col = "blue"
+    # )
+    # abline(h = 0, col = "black", lwd = 2)
+    # dev.off()
 
-    pdf("./homeworks/hw1/plots/bias_intercept.pdf", width = 8, height = 6)
-    plot(x_bias_vals, a_hat_bias,
-        main = "Bias of intercept estimator",
-        xlab = "Simulation number", ylab = "Bias", pch = 19, col = "red"
-    )
-    abline(h = 0, col = "black", lwd = 2)
-    dev.off()
+    # pdf("./homeworks/hw1/plots/bias_intercept.pdf", width = 8, height = 6)
+    # plot(x_bias_vals, a_hat_bias,
+    #     main = "Bias of intercept estimator",
+    #     xlab = "Simulation number", ylab = "Bias", pch = 19, col = "red"
+    # )
+    # abline(h = 0, col = "black", lwd = 2)
+    # dev.off()
 
     # Print the results
     cat(

@@ -77,11 +77,11 @@ distance_{min} = ||y - \hat{\beta} x - \hat{\alpha} 1|| = ||y - \hat{\beta} x - 
 $$
 
 $$
-= ||y - \hat{\beta} x - \bar{y} + \hat{\beta} \bar{x}||
+= ||y - \hat{\beta} x - \bar{y} 1 + \hat{\beta} \bar{x} 1||
 $$
 
 $$
-= ||y - \bar{y} - \hat{\beta} (x - \bar{x})||
+= ||y - \bar{y} 1 - \hat{\beta} (x - \bar{x} 1)||
 $$
 
 ## Part 3. Demonstrating estimators to be unbiased through simulation
@@ -133,7 +133,7 @@ simSlopeIntercept <- function(
     a_hat_bias <- rep(NA, nSim) # y values for bias plots
 
     for (i in 1:nSim) {
-        eps <- rnorm(n, sd = sqrt(sigma)) # error term
+        eps <- rnorm(n, sd = sigma) # error term
         y <- a_true + (b_true * x) + eps # y values with error term
         y_scatterplot_vals[((i * n) - n + 1):(i * n)] <-
             y # add y values to scatterplot
