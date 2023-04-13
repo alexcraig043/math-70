@@ -187,7 +187,7 @@ When graphing the combined plot, it appears that the slopes of the regression an
 
 **Regression Results:**
 
-The slopes for the two regression lines and the major principal axes are the result of the relationship between $z_1$ and $z_2$. As we have seen from the scatter plots, there is a clear positive linear relationship between the two variables. This relationship is represented by the slopes of the regression lines: $0.722738$ for $z_1$ on $z_2$ and $0.7025935$ for $z_2$ on $z_1$. The similarity of these slopes indicates a strong relationship between $z_1$ and $z_2$, as expected, since $z_2$ is generated as a function of $z_1$. Also, the similarity of the slopes suggests that the relationship between $z_1$ and $z_2$ is symmetrical.
+The slopes for the two regression lines and the major principal axes are the result of the relationship between $z_1$ and $z_2$. As we have seen from the scatter plots, there is a clear positive linear relationship between the two variables. This relationship is represented by the slopes of the regression lines: $0.722738$ for $z_1$ on $z_2$ and $0.7025935$ for $z_2$ on $z_1$. The similarity of these slopes indicates a strong relationship between $z_1$ and $z_2$, as expected, since $z_2$ is generated as a function of $z_1$. This similarity is not surprising because, looking at out estimator for $\beta$, we see that the slope of the regression line should be the same regardless of which variable is used as the independent variable assuming both variables are standard normal. Also, the similarity of the slopes suggests that the relationship between $z_1$ and $z_2$ is symmetrical.
 
 **Symmetry of the Relationship:**
 
