@@ -17,6 +17,7 @@ kidsdrink <-
         if (job == 2) {
             d <- cbind(d, log(1 / 60^2 + d$alcm))
             names(d)[ncol(d)] <- "logalcm"
+            # linear model
             o <- lm(logalcm ~ drink + age + boy + race + alcbr + pared + inc + grade, data = d)
             print(summary(o))
             pdf("./homeworks/hw3/plots/kidsdrink_job2.pdf", width = 16, height = 10)
@@ -35,13 +36,27 @@ kidsdrink <-
             }
             x <- 11:16
             a <- coef(o)
-            ### Which of these coefficients black_girl_pared_inc_grade?
-            lines(x, a[1] + a[2] + a[3] * x + a[4] + a[5] + a[6] + a[7] + a[8] + a[9], col = 2, lwd = 3)
-            lines(x, a[1] + a[3] * x + a[4] + a[6] + a[7] + a[8] + a[9], col = 3, lwd = 3, lty = 2)
-            legend(13.2, log(2), c("Drink and have an alcohol related item", "Do not drink and do not have an alcohol related item"), col = 2:3, lwd = 3, lty = 1:2, bg = "gray97", cex = 1.5)
+            print(a)
+            # black girl who drinks, has alcohol related item,
+            # has parents with high education, has high income,
+            # and has good grades
+            lines(x, a[1] + a[2] + a[3] * x + a[6] + a[7], col = 2, lwd = 3)
+            intercept_first <- a[1] + a[2] + a[6] + a[7]
+            # same black girl, except who doesn't drink
+            # and doesn't have an alcohol related item
+            lines(x, a[1] + a[3] * x + a[7], col = 3, lwd = 3, lty = 2)
+            intercept_second <- a[1] + a[7]
+            legend(
+                13.2, log(2),
+                c(
+                    "Drink and have an alcohol related item",
+                    "Do not drink and do not have an alcohol related item"
+                ),
+                col = 2:3, lwd = 3, lty = 1:2, bg = "gray97", cex = 1.5
+            )
 
-            o <- lm(logalcm ~ age + boy + race + I(drink * alcbr) + pared + inc + grade, data = d)
-            print(summary(o))
+            # o <- lm(logalcm ~ age + boy + race + I(drink * alcbr) + pared + inc + grade, data = d)
+            # print(summary(o))
         }
     }
 
