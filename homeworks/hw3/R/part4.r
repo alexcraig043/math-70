@@ -5,6 +5,40 @@ regression <- lm(Height ~ Foot + Nose, data = data)
 # Print the summary of the regression model
 print(summary(regression))
 
+plot_residuals <- function(data, regression) {
+    # Plot the residuals
+    pdf("./homeworks/hw3/plots/height_foot_nose_residuals.pdf",
+        width = 12, height = 6
+    )
+
+    # Plot the residuals for height on foot no the residuals for nose on foot
+    height_foot_regression <- lm(Height ~ Foot, data = data)
+    nose_foot_regression <- lm(Nose ~ Foot, data = data)
+    residuals_regression <- lm(
+        residuals(height_foot_regression) ~ residuals(nose_foot_regression),
+    )
+    plot(
+        residuals(nose_foot_regression), residuals(height_foot_regression),
+        xlab = "Residuals from Nose on Foot",
+        ylab = "Residuals from Height on Foot",
+        main = "Residuals for Height on Foot vs. Nose on Foot"
+    )
+    abline(residuals_regression, col = "red", lwd = 2)
+    legend(
+        "bottomright",
+        legend = c(paste("Regression for Residuals, slope = ", round(
+            residuals_regression$coefficients[2],
+            digits = 4
+        ))),
+        col = c("red"), lty = 1, cex = 0.8
+    )
+
+    # Close the PDF device
+    dev.off()
+}
+
+plot_residuals(data, regression)
+
 plot_scatter <- function(data, regression) {
     # Plot the regression model
     pdf("./homeworks/hw3/plots/height_foot_nose_scatter.pdf",
@@ -107,37 +141,3 @@ plot_scatter <- function(data, regression) {
 }
 
 plot_scatter(data, regression)
-
-plot_residuals <- function(data, regression) {
-    # Plot the residuals
-    pdf("./homeworks/hw3/plots/height_foot_nose_residuals.pdf",
-        width = 12, height = 6
-    )
-
-    # Plot the residuals for height on foot no the residuals for nose on foot
-    height_foot_regression <- lm(Height ~ Foot, data = data)
-    nose_foot_regression <- lm(Nose ~ Foot, data = data)
-    residuals_regression <- lm(
-        residuals(height_foot_regression) ~ residuals(nose_foot_regression),
-    )
-    plot(
-        residuals(nose_foot_regression), residuals(height_foot_regression),
-        xlab = "Residuals from Nose on Foot",
-        ylab = "Residuals from Height on Foot",
-        main = "Residuals for Height on Foot vs. Nose on Foot"
-    )
-    abline(residuals_regression, col = "red", lwd = 2)
-    legend(
-        "bottomright",
-        legend = c(paste("Regression for Residuals, slope = ", round(
-            residuals_regression$coefficients[2],
-            digits = 4
-        ))),
-        col = c("red"), lty = 1, cex = 0.8
-    )
-
-    # Close the PDF device
-    dev.off()
-}
-
-plot_residuals(data, regression)

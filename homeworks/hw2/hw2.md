@@ -8,7 +8,7 @@ geometry: margin=.5in
 
 ## Part 1.
 
-**Instructions:** Generate $z_1$ and $z_2$ as above and graph the scatter plot. Compute and show the regression lines $z_1$ on $z_2$, $z_2$ on $z_1$, and the major principle axis. Print out the four slopes and explain the results.
+**Instructions:** Generate $z_1$ and $z_2$ as above ansd graph the scatter plot. Compute and show the regression lines $z_1$ on $z_2$, $z_2$ on $z_1$, and the major principle axis. Print out the four slopes and explain the results.
 
 ### 1.1 Methods
 
