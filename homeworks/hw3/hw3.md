@@ -2,7 +2,7 @@
 geometry: margin=.5in
 ---
 
-\centerline{\Large\bf Math 70 Homework 2}
+\centerline{\Large\bf Math 70 Homework 3}
 \vspace{1em}
 \centerline{\bf Alex Craig}
 \vspace{3em}
