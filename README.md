@@ -9,3 +9,5 @@ I'm Alex, and this is a repository for my Math 70 (Elements of Multivariate Stat
 [Homework 2](homeworks/hw2/hw2.pdf)
 
 [Homework 3](homeworks/hw3/hw3.pdf)
+
+[Homework 4](homeworks/hw4/hw4.pdf)
