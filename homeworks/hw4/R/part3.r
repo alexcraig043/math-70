@@ -1,4 +1,5 @@
 ### Import Libraries ###
+set.seed(123)
 library(MASS)
 library(gifski)
 

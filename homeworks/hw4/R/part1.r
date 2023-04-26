@@ -1,6 +1,5 @@
 ### Initial setup ###
-
-pdf("./homeworks/hw4/plots/part1.pdf", width = 8, height = 8)
+png("./homeworks/hw4/plots/part1.png", width = 2100, height = 1400, res = 150)
 
 # Bivariate normal distribution parameters
 n <- 100
@@ -29,9 +28,10 @@ bivariate_normal_pdf <- function(x, y, mu_x, mu_y, cov_mat) {
     sd_y <- sqrt(cov_mat[2, 2])
     z_1 <- (x - mu_x) / sd_x
     z_2 <- (y - mu_y) / sd_y
+    rho <- cov_mat[1, 2] / (sd_x * sd_y)
     exponent <- (-1 / (2 * (1 - rho^2))) * (z_1^2 - 2 *
         rho * z_1 * z_2 + z_2^2)
-    scaling_factor <- 1 / (2 * pi * sqrt(1 - rho^2))
+    scaling_factor <- 1 / (2 * pi * sqrt(1 - rho^2) * sd_x * sd_y)
     return(scaling_factor * exp(exponent))
 }
 
@@ -43,14 +43,16 @@ pdf_matrix <- matrix(grid$pdf_matrix, nrow = n, ncol = n)
 
 # Plot the contours of the bivariate normal pdf
 contour(x, y, pdf_matrix,
-    main = "Contours of Bivariate Normal PDF and Regression Line"
+    main = "Contours of Bivariate Normal PDF and Regression Line",
+    lwd = 2,
+    labcex = 1.15,
 )
 
 ### Part B ###
 
 # Calculate the conditional mean of Y given X
 conditional_mean <- function(x, mu_y, mu_x, sd_y, sd_x, rho) {
-    return(mu_y + cov_xy * (x - mu_x))
+    return(mu_y + rho * sd_y / sd_x * (x - mu_x))
 }
 
 # Calculate conditional standard deviation of Y given X
@@ -82,15 +84,12 @@ y_conditional_mean <- conditional_mean(X, mu_y, mu_x, sd_y, sd_x, rho)
 Y <- rnorm(sample_size, mean = y_conditional_mean, sd = y_conditional_sd)
 
 # Create a data frame of X and Y
-data_xy <- data.frame(Y, X)
+data_xy <- data.frame(X, Y)
 
-## QUESTION: plot data?
 # Plot the data
-# points(data_xy$X, data_xy$Y, col = "darkgreen", pch = 20, cex = 0.8)
+points(data_xy$X, data_xy$Y, col = "darkgreen", pch = 20)
 
 ### Part D ###
-
-## QUESTION: use empirical or theoretical covariance matrix?
 
 # Compute the empirical covariance matrix
 emp_cov_mat <- cov(data_xy)
@@ -112,53 +111,28 @@ getMaxEigenvector <- function(cov_mat) {
     return(scaled_eigenvector)
 }
 
-empirical_max_eigenvector <- getMaxEigenvector(emp_cov_mat)
 theoretical_max_eigenvector <- getMaxEigenvector(cov_mat)
 
 # Calculate the start points of the arrows
-empirical_arrow_start_x <- mean(data_xy$X)
-empirical_arrow_start_y <- mean(data_xy$Y)
 theoretical_arrow_start_x <- mu_x
 theoretical_arrow_start_y <- mu_y
 
 # Calculate the end points of the arrows
-empirical_arrow_end_x <- empirical_arrow_start_x + empirical_max_eigenvector[1]
-empirical_arrow_end_y <- empirical_arrow_start_y + empirical_max_eigenvector[2]
 theoretical_arrow_end_x <- theoretical_arrow_start_x +
     theoretical_max_eigenvector[1]
 theoretical_arrow_end_y <- theoretical_arrow_start_y +
     theoretical_max_eigenvector[2]
 
-# Add the arrows to the plot
-arrows(empirical_arrow_start_x, empirical_arrow_start_y,
-    empirical_arrow_end_x, empirical_arrow_end_y,
-    col = "darkgreen", lwd = 2
-)
 arrows(theoretical_arrow_start_x, theoretical_arrow_start_y,
     theoretical_arrow_end_x, theoretical_arrow_end_y,
-    col = "red", lwd = 2
+    col = "green", lwd = 2
 )
 
 ### Part E ###
 
-# Modified bivariate normal pdf function
-# to use empirical means and covariance matrix
-empirical_bivariate_normal_pdf <- function(x, y, mu_x, mu_y, cov_mat) {
-    emp_sd_x <- sqrt(cov_mat[1, 1])
-    emp_sd_y <- sqrt(cov_mat[2, 2])
-    z_1 <- (x - mu_x) / emp_sd_x
-    z_2 <- (y - mu_y) / sd_y
-    # Calculate the empirical correlation coefficient
-    rho_emp <- cov_mat[1, 2] / (emp_sd_x * emp_sd_y)
-    exponent <- (-1 / (2 * (1 - rho_emp^2))) *
-        (z_1^2 - 2 * rho_emp * z_1 * z_2 + z_2^2)
-    scaling_factor <- 1 / (2 * pi * sqrt(1 - rho_emp^2))
-    return(scaling_factor * exp(exponent))
-}
-
 # Calculate the probability density for each point
 # using the empirical covariance matrix
-grid$emp_pdf <- empirical_bivariate_normal_pdf(
+grid$emp_pdf <- bivariate_normal_pdf(
     grid$x, grid$y, mean(X), mean(Y), emp_cov_mat
 )
 
@@ -166,7 +140,10 @@ grid$emp_pdf <- empirical_bivariate_normal_pdf(
 emp_pdf_matrix <- matrix(grid$emp_pdf, nrow = n, ncol = n)
 
 # Plot the contours of the bivariate normal pdf
-contour(x, y, emp_pdf_matrix, add = TRUE, col = "purple")
+contour(x, y, emp_pdf_matrix,
+    add = TRUE, col = "purple", lwd = 2,
+    labcex = 1.15
+)
 
 # Add a legend
 legend("topright",
@@ -179,11 +156,11 @@ legend("topright",
     ),
     col = c(
         "black", "purple", "red",
-        "blue", "darkgreen", "red", "darkgreen"
+        "blue", "green", "red", "darkgreen"
     ), lty = c(1, 1, 1, 2), cex = 0.8,
     pch = c(NA, NA, NA, NA, NA, NA, 16),
     lwd = c(2, 2, 2, 2, 2, 2, NA), bty = "n"
 )
 
-# Close the pdf
+# Close the png
 dev.off()

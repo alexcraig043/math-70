@@ -1,15 +1,13 @@
 ### Information on the towns ###
-
-town_labels <- c(1, 2, 3, 4, 5, 6)
-town_rates <- c(2.1, 1.7, 1.0, 1.8, 1.5, 1.2)
+mu_x <- c(2.1, 1.7, 1.0, 1.8, 1.5)
+x <- c(2.1, 4.1, 1.0, 1.8, 1.5)
+mu_y <- 1.2
 town_locs <- c(
     c(70.1, 34.3), c(70.4, 35.2), c(69.3, 36.2),
     c(72.5, 35.8), c(71.2, 33.8), c(68.7, 34.5)
 )
-
 town_locs <- matrix(town_locs, nrow = 6, ncol = 2, byrow = TRUE)
-
-print(town_locs)
+sigma <- 0.1
 
 distances <- matrix(0, nrow = 6, ncol = 6)
 
@@ -19,7 +17,22 @@ for (i in 1:6) {
     }
 }
 
-correlations <- exp(-0.2 * distances)
+R <- exp(-0.2 * distances)
+
+D <- diag(sigma^2, nrow = 5, ncol = 5)
+
+w <- rep(sigma^2, 5)
+for (i in 1:5) {
+    w[i] <- w[i] * R[i, 6]
+}
+
+Omega <- D^(1 / 2) %*% R[1:5, 1:5] %*% D^(1 / 2)
+
+Omega_inv <- solve(Omega)
+
+exp_y <- mu_y + t(w) %*% Omega_inv %*% (x - mu_x)
+
+var_y <- sigma^2 - t(w) %*% Omega_inv %*% w
 
 matrix2latex <- function(matr) {
     printmrow <- function(x) {
@@ -30,5 +43,3 @@ matrix2latex <- function(matr) {
     body <- apply(matr, 1, printmrow)
     cat("\\end{bmatrix}")
 }
-
-matrix2latex(correlations)
