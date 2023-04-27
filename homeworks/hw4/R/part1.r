@@ -105,8 +105,8 @@ getMaxEigenvector <- function(cov_mat) {
     max_eigenvalue <- eigen_values[max_eigenvalue_index]
     max_eigenvector <- eigen_vectors[, max_eigenvalue_index]
 
-    # Scale the eigenvector by the square root of the maximum eigenvalue
-    scaled_eigenvector <- max_eigenvector * sqrt(max_eigenvalue)
+    # Scale the eigenvector to be magnitude of 1
+    scaled_eigenvector <- max_eigenvector / sqrt(max_eigenvalue)
 
     return(scaled_eigenvector)
 }
@@ -125,7 +125,7 @@ theoretical_arrow_end_y <- theoretical_arrow_start_y +
 
 arrows(theoretical_arrow_start_x, theoretical_arrow_start_y,
     theoretical_arrow_end_x, theoretical_arrow_end_y,
-    col = "green", lwd = 2
+    col = "blue", lwd = 3
 )
 
 ### Part E ###
@@ -156,7 +156,7 @@ legend("topright",
     ),
     col = c(
         "black", "purple", "red",
-        "blue", "green", "red", "darkgreen"
+        "blue", "blue", "red", "darkgreen"
     ), lty = c(1, 1, 1, 2), cex = 0.8,
     pch = c(NA, NA, NA, NA, NA, NA, 16),
     lwd = c(2, 2, 2, 2, 2, 2, NA), bty = "n"

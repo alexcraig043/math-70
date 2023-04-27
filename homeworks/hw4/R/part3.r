@@ -1,32 +1,37 @@
 ### Import Libraries ###
-set.seed(123)
-library(MASS)
 library(gifski)
 
 ### Trivariate normal distribution parameters ###
 
 # First 200 normally distributed random vectors (U)
-u_num <- 100
-u_mu_1 <- 2
-u_mu_2 <- 2
-u_mu_3 <- 4
+u_num <- 200
+u_mu <- c(2, 2, 4)
 u_cov_mat <- matrix(c(2, -1, -1, -1, 3, 1, -1, 1, 4), nrow = 3, ncol = 3)
 
 # Second 300 normally distributed random vectors (V)
 v_num <- 300
-v_mu_1 <- 1
-v_mu_2 <- -2
-v_mu_3 <- 1
-v_cov_mat <- matrix(c(4, 1, .1, 1, 1, -.1, .5, -.1, 2), nrow = 3, ncol = 3)
+v_mu <- c(1, -2, 1)
+v_cov_mat <- matrix(c(4, 1, .5, 1, 1, -.1, .5, -.1, 2), nrow = 3, ncol = 3)
 
 ### Vector Generation ###
 
-# QUESTION: Can I use mvnorm?
 # Generate the first 200 normally distributed random vectors
-U <- mvrnorm(u_num, c(u_mu_1, u_mu_2, u_mu_3), u_cov_mat)
+z_1 <- matrix(rnorm(u_num * 3), nrow = u_num, ncol = 3)
+eigen_u_cov_mat <- eigen(u_cov_mat)
+sqrt_u_cov_mat <- eigen_u_cov_mat$vectors %*%
+    diag(sqrt(eigen_u_cov_mat$values)) %*%
+    t(eigen_u_cov_mat$vectors)
+un <- rep(1, u_num)
+U <- z_1 %*% sqrt_u_cov_mat + un %*% t(u_mu)
 
 # Generate the second 300 normally distributed random vectors
-V <- mvrnorm(v_num, c(v_mu_1, v_mu_2, v_mu_3), v_cov_mat)
+z_2 <- matrix(rnorm(v_num * 3), nrow = v_num, ncol = 3)
+eigen_v_cov_mat <- eigen(v_cov_mat)
+sqrt_v_cov_mat <- eigen_v_cov_mat$vectors %*%
+    diag(sqrt(eigen_v_cov_mat$values)) %*%
+    t(eigen_v_cov_mat$vectors)
+vn <- rep(1, v_num)
+V <- z_2 %*% sqrt_v_cov_mat + vn %*% t(v_mu)
 
 xlim <- c(min(U[, 1], V[, 1]), max(U[, 1], V[, 1]))
 ylim <- c(min(U[, 2], V[, 2]), max(U[, 2], V[, 2]))
@@ -59,13 +64,13 @@ for (theta in 1:360) {
         theta = theta, phi = 20, ticktype = "detailed", col = "white"
     )
 
-    # Add 3d points for group U
+    # Add 3d points for U
     U_3d <- trans3d(
         x = U[, 1], y = U[, 2], z = U[, 3],
         pmat = plot_3d
     )
 
-    # Add 3d points for group V
+    # Add 3d points for V
     V_3d <- trans3d(
         x = V[, 1], y = V[, 2], z = V[, 3],
         pmat = plot_3d
@@ -81,13 +86,13 @@ for (theta in 1:360) {
         pch = 16, col = "blue", cex = 0.75
     )
 
-    # Add 2d points for group U
+    # Add 2d points for U
     U_2d <- trans3d(
         x = U[, 1], y = U[, 2], z = matrix(0, nrow = u_num, ncol = 1),
         pmat = plot_3d
     )
 
-    # Add 2d points for group V
+    # Add 2d points for V
     V_2d <- trans3d(
         x = V[, 1], y = V[, 2], z = matrix(0, nrow = v_num, ncol = 1),
         pmat = plot_3d

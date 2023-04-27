@@ -34,12 +34,9 @@ exp_y <- mu_y + t(w) %*% Omega_inv %*% (x - mu_x)
 
 var_y <- sigma^2 - t(w) %*% Omega_inv %*% w
 
-matrix2latex <- function(matr) {
-    printmrow <- function(x) {
-        cat(cat(x, sep = " & "), "\\\\ \n")
-    }
+### 95% CI ###
 
-    cat("\\begin{bmatrix}", "\n")
-    body <- apply(matr, 1, printmrow)
-    cat("\\end{bmatrix}")
-}
+c_1 <- 1.265522 - 1.959964 * 0.02683833
+c_2 <- 1.265522 + 1.959964 * 0.02683833
+
+print(c(c_1, c_2))
