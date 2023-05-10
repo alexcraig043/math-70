@@ -105,8 +105,8 @@ false_positive <- rep(0, n)
 # Loop through each patient
 for (i in 1:n) {
     # Calculate empirical sensitivity & false positive
-    sensitivity[i] <- mean(Y$BP <= data$BP[i])
-    false_positive[i] <- mean(X$BP <= data$BP[i])
+    sensitivity[i] <- mean(Y$BP < data$BP[i])
+    false_positive[i] <- mean(X$BP < data$BP[i])
 }
 
 # Define thresholds
@@ -131,7 +131,7 @@ plot(
     type = "s",
     xlim = c(0, 1),
     ylim = c(0, 1),
-    main = "ROC Curve for Blood Pressure",
+    main = "ROC Curve for Identification of Non-Hypertension Patients",
     cex.main = 3,
     xlab = "False Positive (1 - Specificity)",
     ylab = "Sensitivity",
@@ -239,6 +239,8 @@ for (i in 1:n) {
     total_cost_emp[i] <- false_positive_weight * false_positive[i] +
         false_negative_weight * (1 - sensitivity[i])
 }
+
+### TAKE MEAN
 
 # Find the index of the minimum total cost
 min_index_emp <- which.min(total_cost_emp)
@@ -373,7 +375,7 @@ plot(
     type = "s",
     xlim = c(0, 1),
     ylim = c(0, 1),
-    main = "ROC Curve for Blood Pressure",
+    main = "ROC Curve for Identification of Non-Hypertension Patients",
     cex.main = 3,
     xlab = "False Positive (1 - Specificity)",
     ylab = "Sensitivity",

@@ -45,7 +45,7 @@ $$
 \Phi(z) > \Phi(\frac{(\sigma_X z + \mu_X) - \mu_Y}{\sigma_Y}) = \Phi(\frac{\sigma_X}{\sigma_Y}z + \frac{\mu_X - \mu_Y}{\sigma_Y})
 $$
 
-Since $\Phi(x)$ is an increasing function and the inequality above must hold for any $z$, we can see that the only way to satisfy this inequality is for $\frac{\sigma_X}{\sigma_Y} z + \frac{\mu_Y - \mu_X}{\sigma_Y} < z$. Because the standard deviations of $X$ and $Y$ are positive, this implies that:
+Since $\Phi(x)$ is an increasing function and the inequality above must hold true $\forall z$ given that $X \prec Y$, we can see that the only way to satisfy this inequality is for $\frac{\sigma_X}{\sigma_Y} z + \frac{\mu_Y - \mu_X}{\sigma_Y} < z$. Because the standard deviations of $X$ and $Y$ are positive, this implies that:
 
 $$
 \mu_X - \mu_Y < 0 \Rightarrow \mu_X < \mu_Y
@@ -105,9 +105,11 @@ $$
 \Phi(z) > \Phi(z + \frac{\mu_X - \mu_Y}{\sigma_Y})
 $$
 
-We know that $\sigma_Y$ is positive, so therefore if $\mu_X < \mu_Y$, then $\frac{\mu_X - \mu_Y}{\sigma_Y} < 0$, making the above inequality true for all $z$, which implies that $X \prec Y$, making $\mu_X < \mu_Y$ a necessary and sufficient condition for $X \prec Y$ when $\sigma_X = \sigma_Y$.
+We know that $\sigma_Y$ is positive, so therefore if $\mu_X < \mu_Y$, then $\frac{\mu_X - \mu_Y}{\sigma_Y} < 0$, making the above inequality true $\forall z$, which implies that $X \prec Y$, making $\mu_X < \mu_Y$ a necessary and sufficient condition for $X \prec Y$ when $\sigma_X = \sigma_Y$.
 
 # Problem 2
+
+## Instructions
 
 File `bp.csv` contains blood pressure (BP) for normal patients (controls, high=0) and hypertension patients (high=1).
 
@@ -130,3 +132,35 @@ The cost associated with overlooking a hypertension patient is \$10K and the cos
 #### (e)
 
 Display the optimal threshold on the binormal ROC curve and the respective BP scale using `axis(side=3)`.
+
+## Solution
+
+### Explanation
+
+#### (a)
+
+#### (b)
+
+#### (c)
+
+#### (d)
+
+#### (e)
+
+```bash
+AUC calculated using sum of rectangles: 0.8968544
+AUC calculated using vectorized computation: 0.8970754
+AUC calculated using theoretical formula: 0.8936977
+```
+
+### Code
+
+### Plots
+
+![(a) Empirical CDFs](./plots/q2a.png)
+
+![(b) ROC Curve](./plots/q2b.png)
+
+![(d) Total Cost](./plots/q2d.png)
+
+![(e) Optimal Threshold & ROC Curve](./plots/q2e.png)
