@@ -230,6 +230,8 @@ cat("AUC calculated using theoretical formula:", AUC, "\n")
 false_positive_weight <- 10
 false_negative_weight <- 1
 
+## Empirical
+
 # Define an empty vector for the total cost
 total_cost_emp <- rep(0, n)
 
@@ -240,13 +242,16 @@ for (i in 1:n) {
         false_negative_weight * (1 - sensitivity[i])
 }
 
-### TAKE MEAN
-
-# Find the index of the minimum total cost
-min_index_emp <- which.min(total_cost_emp)
+# Find all indices of the minimum total cost
+min_indexes_emp <- which(total_cost_emp == min(total_cost_emp))
 
 # Define the empirical optimal threshold
-optimal_threshold_emp <- data$BP[min_index_emp]
+optimal_threshold_emp <- mean(data$BP[min_indexes_emp])
+
+# Define the empirical minimum total cost
+min_total_cost_emp <- mean(total_cost_emp[min_indexes_emp])
+
+## Binomial
 
 # Define an empty vector for binomial total cost
 total_cost_binom <- rep(0, n)
@@ -255,11 +260,14 @@ total_cost_binom <- rep(0, n)
 total_cost_binom <- false_positive_weight * cdf_x_binom +
     false_negative_weight * (1 - cdf_y_binom)
 
-# Find the index of the minimum total cost
-min_index_binom <- which.min(total_cost_binom)
+# Find all indices of the minimum total cost
+min_indexes_binom <- which(total_cost_binom == min(total_cost_binom))
 
 # Define the binomial optimal threshold
-optimal_threshold_binom <- thresholds[min_index_binom]
+optimal_threshold_binom <- mean(thresholds[min_indexes_binom])
+
+# Define the binomial minimum total cost
+min_total_cost_binom <- mean(total_cost_binom[min_indexes_binom])
 
 ## Plotting
 
@@ -302,7 +310,7 @@ lines(
 # Add a blue dot for the binomial optimal threshold
 points(
     optimal_threshold_binom,
-    total_cost_binom[min_index_binom],
+    min_total_cost_binom,
     col = "blue",
     pch = 19,
     cex = 2.5
@@ -311,7 +319,7 @@ points(
 # Add a red dot for the empirical optimal threshold
 points(
     optimal_threshold_emp,
-    total_cost_emp[min_index_emp],
+    min_total_cost_emp,
     col = "red",
     pch = 19,
     cex = 2.5
@@ -335,7 +343,7 @@ legend(
         ),
         paste(
             "Empirical Minimum Total Cost: $",
-            round(total_cost_emp[min_index_emp], 2), " K",
+            round(min_total_cost_emp, 2), "K",
             sep = ""
         ),
         paste("Binomial Optimal Threshold: ",
@@ -344,7 +352,7 @@ legend(
         ),
         paste(
             "Binomial Minimum Total Cost: $",
-            round(total_cost_binom[min_index_binom], 2), " K",
+            round(min_total_cost_binom, 2), "K",
             sep = ""
         )
     ),
@@ -396,8 +404,8 @@ lines(
 
 # Add a blue dot for the binomial optimal threshold
 points(
-    cdf_x_binom[min_index_binom],
-    cdf_y_binom[min_index_binom],
+    cdf_x_binom[round(min_indexes_binom, 0)],
+    cdf_y_binom[round(min_indexes_binom, 0)],
     col = "blue",
     pch = 19,
     cex = 2.5
@@ -405,8 +413,8 @@ points(
 
 # Add a red dot for the empirical optimal threshold
 points(
-    false_positive[min_index_emp],
-    sensitivity[min_index_emp],
+    false_positive[round(min_indexes_emp, 0)],
+    sensitivity[round(min_indexes_emp, 0)],
     col = "red",
     pch = 19,
     cex = 2.5
@@ -444,6 +452,15 @@ mtext(
     line = 3,
     cex = 2
 )
+
+# Add text in middle of plot to display AUC %
+text(
+    x = 0.35,
+    y = 0.6,
+    labels = paste("AUC = ", round(AUC, 3) * 100, "%", sep = ""),
+    cex = 3
+)
+
 
 # Add a legend
 legend(
