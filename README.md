@@ -13,3 +13,5 @@ I'm Alex, and this is a repository for my Math 70 (Elements of Multivariate Stat
 [Homework 4](homeworks/hw4/hw4.pdf)
 
 [Homework 6](homeworks/hw6/hw6.pdf)
+
+[Homework 7](homeworks/hw7/hw7.pdf)
