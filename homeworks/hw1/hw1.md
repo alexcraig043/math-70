@@ -1,6 +1,9 @@
-# M70 Homework 1
+---
+geometry: margin=.5in
 
-## Alex Craig
+title: "Math 70 Homework 1"
+author: "Alex Craig"
+---
 
 ## Part 1. Finding unbiased estimators for $\alpha$ and $\beta$
 
