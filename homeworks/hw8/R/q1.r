@@ -81,40 +81,6 @@ shopper_data_60$prob <- predict(
     type = "response"
 )
 
-## Plotting
-
-# Open a png device
-png("./homeworks/hw8/plots/q1a.png", width = 1600, height = 1200)
-
-# Set the margins
-par(mar = c(10, 10, 10, 10))
-
-# Plot the probability of shopping for 20 year olds vs. total
-plot(
-    shopper_data_20$total, shopper_data_20$prob,
-    type = "l", col = "blue", lwd = 3,
-    xlab = "Total Spent ($)", ylab = "Probability of Being an Active Shopper",
-    main = "Probability of Being an Active Shopper vs. Total Spent",
-    cex.main = 3, cex.lab = 2.5, cex.axis = 2.5
-)
-
-# Plot the probability of shopping for 60 year olds vs. total
-lines(
-    shopper_data_60$total, shopper_data_60$prob,
-    type = "l", col = "red", lwd = 3
-)
-
-# Add a legend
-legend(
-    "bottomright",
-    legend = c("20 Years Old", "60 Years Old"),
-    col = c("blue", "red"),
-    lwd = 2, cex = 2
-)
-
-# Close the png device
-dev.off()
-
 ### Part D
 
 # Define age and total spent
@@ -182,7 +148,56 @@ confidence_interval <- c(lower_bound_prob, upper_bound_prob)
 # Print the confidence interval
 print(confidence_interval)
 
-## QUESTION: how to display confidence interval?
+## Plotting
+
+# Open a png device
+png("./homeworks/hw8/plots/q1c.png", width = 1600, height = 1200)
+
+# Set the margins
+par(mar = c(10, 10, 10, 10))
+
+# Plot the probability of shopping for 20 year olds vs. total
+plot(
+    shopper_data_20$total, shopper_data_20$prob,
+    type = "l", col = "blue", lwd = 3,
+    xlab = "Total Spent ($)", ylab = "Probability of Being an Active Shopper",
+    main = "Probability of Being an Active Shopper vs. Total Spent",
+    cex.main = 3, cex.lab = 2.5, cex.axis = 2.5
+)
+
+# Plot the probability of shopping for 60 year olds vs. total
+lines(
+    shopper_data_60$total, shopper_data_60$prob,
+    type = "l", col = "red", lwd = 3
+)
+
+# Add a point for 60 year old who spends $2000
+points(
+    total_value, predict(
+        parsimonious_model, data.frame(age = age_value, total = total_value),
+        type = "response"
+    ),
+    col = "red", pch = 19, cex = 2
+)
+
+# Add a like for the confidence interval
+lines(
+    c(total_value, total_value),
+    c(confidence_interval[1], confidence_interval[2]),
+    col = "red", lwd = 3
+)
+
+# Add a legend
+legend(
+    "bottomright",
+    legend = c("20 Years Old", "60 Years Old", "60 Years Old, $2000 Spent"),
+    col = c("blue", "red", "red"),
+    lty = c(1, 1, 0), pch = c(NA, NA, 19),
+    lwd = 2, cex = 2
+)
+
+# Close the png device
+dev.off()
 
 ### Part E
 
