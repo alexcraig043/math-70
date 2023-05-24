@@ -30,12 +30,7 @@ null_model <- glm(
     data = shopper_data, family = binomial
 )
 
-## Using anova()
-lr_test <- anova(null_model, parsimonious_model, test = "Chisq")
-
-# print(lr_test)
-
-## Manually calculating the likelihood ratio test
+## Calculating the likelihood ratio test
 
 # Compute the likelihoods of the null model and the parsimonious model
 null_deviance <- null_model$deviance
@@ -53,7 +48,7 @@ df <- null_model$df.residual - parsimonious_model$df.residual
 p_value <- pchisq(lr_stat, df, lower.tail = FALSE)
 
 # Print the p-value
-# print(p_value)
+print(p_value)
 
 ### Part C
 
@@ -115,12 +110,6 @@ cov_matrix[2, 3] <- sum(d_i * shopper_data$age * shopper_data$total)
 cov_matrix[3, 1] <- cov_matrix[1, 3]
 cov_matrix[3, 2] <- cov_matrix[2, 3]
 cov_matrix[3, 3] <- sum(d_i * shopper_data$total^2)
-
-# cov_matrix <- matrix(0, 2, 2)
-# cov_matrix[1, 1] <- sum(di_all)
-# cov_matrix[1, 2] <- sum(di_all * shopper_data$age)
-# cov_matrix[2, 1] <- sum(di_all * shopper_data$age)
-# cov_matrix[2, 2] <- sum(di_all * shopper_data$age^2)
 
 # Invert the covariance matrix
 cov_matrix <- solve(cov_matrix)

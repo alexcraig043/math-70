@@ -45,12 +45,10 @@ variance_explained_2 <- lambda[2] / total_variance
 # Compute total variance explained by the first two PCA components
 total_variance_explained <- variance_explained_1 + variance_explained_2
 
-### Part C
-
 ## Plotting
 
 # Open a png device
-png("./homeworks/hw8/plots/q2.png", width = 1600, height = 1200)
+png("./homeworks/hw8/plots/q2b.png", width = 1600, height = 1200)
 
 # Set the margins
 par(mar = c(10, 10, 10, 10))
@@ -98,6 +96,64 @@ legend(
     pch = 16,
     cex = 2
 )
+
+# Close the png device
+dev.off()
+
+### Part C
+
+# Define all lambdas
+lambdas <- eigen$values
+
+# Define an array for variance explained by each component
+variance_explained <- rep(0, length(lambdas))
+
+# Define number of components
+num_components <- length(lambdas)
+
+# Compute the variance explained by each component
+for (i in 1:num_components) {
+    variance_explained_component <- lambdas[i] / total_variance
+    if (i == 1) {
+        variance_explained[i] <- variance_explained_component
+    } else {
+        variance_explained[i] <- variance_explained[i - 1] +
+            variance_explained_component
+    }
+}
+
+# Add a zero to the beginning of the variance explained array
+variance_explained <- c(0, variance_explained)
+
+## Plotting
+
+# Open a png device
+png("./homeworks/hw8/plots/q2c.png", width = 1600, height = 1200)
+
+# Set the margins
+par(mar = c(10, 10, 10, 10))
+
+# Set the main text
+main_text <- "Proportion of Cumulative Variance Explained by each PCA Component"
+
+# Plot the variance explained by each component
+plot(
+    x = c(0, 1, 2, 3, 4), y = variance_explained, type = "l",
+    xlab = "", ylab = "",
+    main = main_text, xlim = c(0, num_components), ylim = c(0, 1),
+    cex.main = 3, cex.axis = 2, cex.lab = 2, lwd = 3
+)
+
+# Set the x and y labels
+xlabel <- "Number of PCA Components"
+ylabel <- "Variance Explained"
+
+# Add points
+points(x = c(1, 2, 3, 4), y = variance_explained[2:5], pch = 16, cex = 2)
+
+# Label the x and y axes
+axis(1, at = 2, labels = xlabel, cex.axis = 2, line = 5)
+axis(2, at = .5, labels = ylabel, cex.axis = 2, line = 5)
 
 # Close the png device
 dev.off()
