@@ -33,13 +33,29 @@ Compute and display the ROC curves along with AUCs for identification of an inac
 
 ## Solution
 
-#### (b) P-Value
+#### (a)
 
-The p-value for the likelihood ratio test by testing the null hypothesis that all the slope coefficients are zero is `1.896326e-65`. This means that we can reject the null hypothesis that all the slope coefficients are zero.
+First, I loaded the data from the `amazshop.csv` file. Then, I fit a full logistic regression model to the data, using the `glm()` function in R with `family = binomial`, including all four predictors: `age`, `sex`, `total` and `npurch`. After running the full model, I examined the summary of the model to check the significance of each predictor. I found that only the variables age and total were significant, so I created a new, parsimonious model, which only includes these two variables.
 
-#### (d) Confidence Interval
+#### (b)
 
-The $95\%$ confidence interval for the probability of a person who spends $\$2000$ per year and is $60$ years old is $(0.7276717, 0.8359433)$.
+I started by creating a null model, which does not include any predictors and only contains an intercept. Then, I performed a likelihood ratio test to compare the null model with the parsimonious model. This test assesses the hypothesis that all the slope coefficients are zero in the parsimonious model. The p-value I obtained was extremely low (`1.896326e-65`), suggesting strong evidence against the null hypothesis. This p-value indicates that we may reject the null hypothesis that all the slope coefficients are zero.
+
+#### (c)
+
+In this step, I created two data frames, one for shoppers of age $20$ and another for shoppers of age $60$, each with a sequence of total spent values. After sorting the data frames by total spent, I used the `predict()` function to compute the probability of being an active shopper for each total spent value using the parsimonious model. I added these predicted probabilities as a new prob column in each data frame.
+
+#### (d)
+
+I first defined an age of $60$ and a total spent amount of $\$2000$. Then, I extracted the coefficients from the parsimonious model and used these coefficients along with the defined age and total values to calculate the linear predictor on the logit scale for these values as well as for all data in the dataset. I transformed these linear predictors to the probability scale and computed `d_i` for all data.
+
+Next, I calculated the covariance matrix and inverted it. Using the inverted covariance matrix along with the age and total values, I computed the variance of the probability. Using this variance, I calculated the lower and upper bounds of the confidence interval on the linear scale and transformed these bounds back to the probability scale. The result was the $95\%$ confidence interval for the probability that a person who spends $\$2000$ per year and is $60$ years old is an active shopper. The confidence interval was $(0.7276717, 0.8359433)$.
+
+#### (e)
+
+I computed the ROC curves and the AUC values for both the full model and the parsimonious model. These measures provide a way to evaluate the overall performance of a binary classification model. I calculated the sensitivity (true positive rate) and false positive rate for all possible thresholds and plotted these values to create the ROC curves. The AUC was then computed by summing up the areas of the trapezoids formed by consecutive points on the ROC curve.
+
+Finally, I plotted the ROC curves for both models on the same graph, using different colors for easy comparison. The AUC values were also displayed on the graph. The code block ends with the creation of two png files, one illustrating the probability of being an active shopper versus the total spent for shoppers of age 20 and 60, and the other showing the ROC curves for the full and parsimonious models.
 
 ### Code
 
@@ -364,6 +380,18 @@ Compute and display on each axis the proportion of variance explained and two co
 Display the proportion of variance explained by PCA projections as in `swiss(job=3)`.
 
 ## Solution
+
+#### (a)
+
+First, I processed the iris dataset using Principal Component Analysis (PCA). I extracted the four features of the dataset and used these to create a covariance matrix. By calculating the eigenvalues and eigenvectors of this matrix, I determined the two most significant dimensions. This allowed me to project the multi-dimensional iris data onto a 2D plane for visualization. The points were colored according to the species of each iris flower, providing a visual representation of the data separation achieved through PCA.
+
+#### (b)
+
+Next, I evaluated the effectiveness of the PCA transformation. This was done by calculating the proportion of variance in the dataset that was captured by the first and second principal components. I then displayed these proportions on the respective axes of the plotted graph. The total variance explained by the first two components was also calculated and displayed at the top of the graph. To aid interpretation, a legend for the flower colors was added to the plot.
+
+#### (c)
+
+Lastly, I wanted to visualize the cumulative variance explained by the PCA components. To do this, I calculated the variance explained by each component and used it to create a line graph. This graph showed the proportion of cumulative variance explained as more components were considered. It allowed for an understanding of the trade-off between the number of components and the proportion of variance explained, essentially visualizing the efficiency of the PCA transformation.
 
 ### Code
 
