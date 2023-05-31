@@ -28,3 +28,28 @@ Upon viewing the graph upon magniﬁcation, do you think that clustering reﬂec
 Compute % females in cluster 1 and cluster 2. Does your answer match visual inspection? Display the number of females in the title.
 
 ## Solutions
+
+#### (a)
+
+The broken-line algorithm returns an optimal number of clusters of 2, when I used `Kmax` up to 6. If I set `Kmax` at 7 or higher, the algorithm returns an optimal number of clusters of 3, but this is likely too high of a `Kmax`.
+
+Below is the plot of the broken-line algorithm.
+
+![](./plots/q1a.png)
+
+#### (b)
+
+Yes, clustering does reflect gender. Cluster $1$ has almost all of the female (green) individuals.
+
+#### (c)
+
+Zooming in still shows that almost all of the female individuals are in cluster $1$.
+
+#### (d)
+
+Cluster $1$ has $82\%$ of the females in it, and cluster $2$ has $18\%$ of the females in it. This suggests that two clusters follow the gender separation of the individuals, and supports my previous statements that the clusters reflect gender. 
+
+Below are the full and zoomed in plots of the cluster assignment of each individual.
+
+![](./plots/q1b.png)
+![](./plots/q1b_close.png)

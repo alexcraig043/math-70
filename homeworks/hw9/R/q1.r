@@ -5,7 +5,7 @@ goldman_data <- read.csv("./homeworks/hw9/data/Goldman.imputed.csv", header = T)
 ### Part A
 
 # Define the maximum number of clusters to consider
-Kmax <- 6
+Kmax <- 5
 
 # Pre-allocate vector for total within-cluster sum of squares (TWSS)
 TWSS <- rep(NA, Kmax)
@@ -129,14 +129,14 @@ axis(2, at = 1:optimal_K, labels = 1:optimal_K)
 # Add text for % of females in each cluster
 text(n / 2, 1.75, paste(
     "Percent of Females in Cluster 2: ",
-    round(100 * female_proportions[2], 2), "%",
+    round(100 * female_proportions[2]), "%",
     sep = ""
 ),
 cex = 2.5, font = 2
 )
 text(n / 2, 1.25, paste(
     "Percent of Females in Cluster 1: ",
-    round(100 * female_proportions[1], 2), "%",
+    round(100 * female_proportions[1]), "%",
     sep = ""
 ),
 cex = 2.5, font = 2
