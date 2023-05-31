@@ -142,7 +142,5 @@ text(n / 2, 1.25, paste(
 cex = 2.5, font = 2
 )
 
-# Get rid of the box around the plot
-
 # Close the PNG device
 dev.off()
