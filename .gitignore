@@ -1,1 +1,4 @@
-/exams
+*.zip
+exams/midterm/plots/q5_frames/
+exams/midterm/plots/q5.gif
+exams/midterm/submission/q5.gif

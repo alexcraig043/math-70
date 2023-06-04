@@ -47,7 +47,7 @@ Zooming in still shows that almost all of the female individuals are in cluster 
 
 #### (d)
 
-Cluster $1$ has $82\%$ of the females in it, and cluster $2$ has $18\%$ of the females in it. This suggests that two clusters follow the gender separation of the individuals, and supports my previous statements that the clusters reflect gender.
+Cluster $1$ has $82\%$ of the females in it, and cluster $2$ has $18\%$ of the females in it. This suggests that two clusters approximate the gender separation of the individuals, and supports my previous statements that the clusters reflect gender.
 
 Below are the full and zoomed in plots of the cluster assignment of each individual.
 
